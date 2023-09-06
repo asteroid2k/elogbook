@@ -8,7 +8,6 @@ export const createSchema = z.object({
     .transform((val) => val || null)
     .nullish(),
 });
-
 export const updateSchema = createSchema.extend({
   reviewed: z.boolean(),
   published: z.boolean(),

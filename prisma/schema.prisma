@@ -10,6 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  STUDENT
+  SUPERVISOR
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String
+  username  String
+  password  String
+  salt      String
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
 model Elog {
   id        String   @id @default(cuid())
   title     String
@@ -17,6 +35,7 @@ model Elog {
   imageKey  String?
   published Boolean  @default(false)
   reviewed  Boolean  @default(false)
+  author    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
