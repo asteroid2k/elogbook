@@ -2,7 +2,6 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginRequest, loginSchema } from "@/app/api/auth/login/route";
 import { FetchError, ofetch } from "ofetch";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -19,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoginRequest, loginSchema } from "@/app/api/auth/login/schema";
 
 export default function Login() {
   const router = useRouter();

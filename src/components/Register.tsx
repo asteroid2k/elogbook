@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginRequest } from "@/app/api/auth/login/route";
 import { FetchError } from "ofetch";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -32,7 +31,7 @@ export default function Register() {
       password: "",
     },
   });
-  async function onRegister(data: LoginRequest) {
+  async function onRegister(data: Register) {
     try {
       const res = await client("/api/users", {
         method: "POST",
