@@ -3,13 +3,25 @@ import { getLocalUser } from "@/utils/helpers";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import {
+  DotsVerticalIcon,
+  Pencil1Icon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import { client } from "@/utils/fetch-client";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Elog } from "@prisma/client";
 import { format, formatDistanceToNow } from "date-fns";
 import { ElogFormDialog } from "@/components/ElogForm";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Elogs() {
   const [open, setOpen] = useState<any>();
@@ -40,6 +52,17 @@ export default function Elogs() {
     setOpen(true);
   }
 
+  async function deleteElog(id: string) {
+    setLoading(true);
+    try {
+      await client(`/api/elogs/${id}`, { method: "DELETE" });
+      await fetchElogs();
+      toast("E-log deleted");
+    } catch (error) {
+      toast.error("Could not delete e-log");
+    }
+  }
+
   function toggleForm(open: boolean) {
     !open ? setSelectedLog(null) : null;
     setOpen(open);
@@ -68,12 +91,29 @@ export default function Elogs() {
                       {elog?.title}
                     </p>
                     {user?.role === "STUDENT" && (
-                      <button
-                        className="text-orange-600 hover:text-orange-500"
-                        onClick={() => editLog(elog.id)}
-                      >
-                        <Pencil1Icon className="w-5 h-5" />
-                      </button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <div className="flex items-center gap-2 w-full justify-between font-medium px-2 text-blue-700">
+                            <DotsVerticalIcon className="w-5 h-5 text-blue-500" />
+                          </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-full">
+                          <DropdownMenuItem
+                            onClick={() => editLog(elog.id)}
+                            className="flex items-center gap-2"
+                          >
+                            <Pencil1Icon />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => deleteElog(elog.id)}
+                            className="flex items-center gap-2"
+                          >
+                            <TrashIcon />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     )}
                   </span>
                   <p className="text-sm text-muted-foreground">

@@ -98,7 +98,7 @@ export function ElogFormDialog({ elogId, open, setOpen, refetch }: FormProps) {
           Add new e-log
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-full sm:max-w-md">
         {loading || form.formState.isSubmitting ? (
           <div className="h-full grid place-items-center">
             <ReloadIcon className="w-8 h-8 animate-spin" />
