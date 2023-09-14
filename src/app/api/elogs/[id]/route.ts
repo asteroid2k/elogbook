@@ -39,18 +39,18 @@ export async function PUT(request: Request, { params }: Params) {
   if (!elog) {
     return NextResponse.json({ message: "E-log not found" }, { status: 404 });
   }
-  if (elog.reviewed) {
-    return NextResponse.json(
-      { message: "E-log has already been reviewed" },
-      { status: 400 }
-    );
-  }
-  if (!isSameDay(new Date(), elog.createdAt)) {
-    return NextResponse.json(
-      { message: "Only today's e-logs can be edited" },
-      { status: 400 }
-    );
-  }
+  // if (elog.reviewed) {
+  //   return NextResponse.json(
+  //     { message: "E-log has already been reviewed" },
+  //     { status: 400 }
+  //   );
+  // }
+  // if (!isSameDay(new Date(), elog.createdAt)) {
+  //   return NextResponse.json(
+  //     { message: "Only today's e-logs can be edited" },
+  //     { status: 400 }
+  //   );
+  // }
 
   const updated = await prisma.elog.update({
     where: { id },

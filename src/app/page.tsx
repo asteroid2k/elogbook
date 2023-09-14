@@ -1,12 +1,14 @@
 import Login from "@/components/Login";
-import { BookmarkFilledIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import logo from "../../public/atu.png";
 
 export default function Home() {
   return (
     <main className="grid place-items-center min-h-screen w-full">
       <div className="w-full flex flex-col items-center">
-        <BookmarkFilledIcon className="w-16 h-16 mx-auto mb-5" />
-        <a className="text-sm text-blue-500 my-3" href="/register">
+        <Image src={logo} width="80" height="60" alt="atu" className="mb-3" />
+
+        <a className="text-sm text-blue-500 my-3 font-light" href="/register">
           Don&apos;t have an account? Sign up
         </a>
         <Login />

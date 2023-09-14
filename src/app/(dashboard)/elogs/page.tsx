@@ -1,18 +1,9 @@
 "use client";
-import { clearLocal, getLocalUser } from "@/utils/helpers";
+import { getLocalUser } from "@/utils/helpers";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
-import { ChevronDownIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 import { client } from "@/utils/fetch-client";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -27,12 +18,8 @@ export default function Elogs() {
   const [selectedLog, setSelectedLog] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
   useEffect(() => {
     const user = getLocalUser();
-    if (!user) {
-      logout();
-    }
     setUser(user);
     fetchElogs().catch((e) => toast.error("Could not fetch e-logs"));
   }, []);
@@ -43,16 +30,11 @@ export default function Elogs() {
       const res = await client("/api/elogs");
       setElogs(res);
     } catch (error) {
-      toast.error("COuld not fetch e-logs");
+      toast.error("Could not fetch e-logs");
     }
     setLoading(false);
   }
 
-  function logout() {
-    clearLocal();
-    Cookies.remove("elogbook_token");
-    router.push("/");
-  }
   function editLog(id: string) {
     setSelectedLog(id);
     setOpen(true);
@@ -63,25 +45,8 @@ export default function Elogs() {
     setOpen(open);
   }
   return (
-    <main className="flex justify-between px-5 py-10 gap-8 min-h-screen max-w-5xl mx-auto">
-      <section className="w-full max-w-[240px]">
-        <Card className="shadow-none py-4 px-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <div className="flex items-center gap-2 w-full">
-                <span>{user?.username?.toLowerCase()}</span>
-                <ChevronDownIcon />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </Card>
-      </section>
-      <section className="w-full max-w-xl py-2 px-4 relative">
+    <main className="w-full h-full">
+      <section className="w-full py-2 px-4 relative h-full">
         <h2 className="text-xl font-semibold mb-4">Your E-logs</h2>
         {loading ? (
           <div className="flex flex-col justify-center text-slate-100 gap-5">
@@ -115,22 +80,24 @@ export default function Elogs() {
                     {elog?.content}
                   </p>
 
-                  <p className="text-xs text-slate-400 flex gap-2 mt-5">
-                    <span>Date:</span>
-                    <span className=" text-blue-500">
-                      {format(new Date(elog.updatedAt), "dd/mm/yyyy")}
-                    </span>
-                  </p>
-                  <p className="text-xs text-slate-400 flex gap-2">
-                    <span>Last updated:</span>
-                    <span className=" text-blue-500">
-                      {formatDistanceToNow(new Date(elog.updatedAt), {
-                        addSuffix: true,
-                      })}
-                    </span>
-                  </p>
+                  <div className="grid gap-1">
+                    <p className="text-xs text-slate-500 flex gap-2 mt-5">
+                      <span>Created on:</span>
+                      <span className=" text-blue-500">
+                        {format(new Date(elog.createdAt), "dd/MM/yyyy")}
+                      </span>
+                    </p>
+                    <p className="text-xs text-slate-500 flex gap-2">
+                      <span>Last updated:</span>
+                      <span className=" text-blue-500">
+                        {formatDistanceToNow(new Date(elog.updatedAt), {
+                          addSuffix: true,
+                        })}
+                      </span>
+                    </p>
+                  </div>
                   {user?.role === "SUPERVISOR" && (
-                    <p className="text-xs text-slate-400 flex gap-2">
+                    <p className="text-xs text-slate-500 flex gap-2">
                       <span>Created by:</span>
                       <span className=" text-blue-500">{elog.author}</span>
                     </p>

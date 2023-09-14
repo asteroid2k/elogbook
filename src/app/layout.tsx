@@ -6,8 +6,8 @@ import Providers from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Elogbook",
-  description: "Manage daily activities",
+  title: "ATU attachment system",
+  description: "ATU attachment system",
 };
 
 export default function RootLayout({

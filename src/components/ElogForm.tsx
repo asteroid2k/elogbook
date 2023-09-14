@@ -24,10 +24,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { client } from "@/utils/fetch-client";
 import toast from "react-hot-toast";
-import { ClipboardIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { PlusCircledIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Textarea } from "./ui/textarea";
 import { FetchError } from "ofetch";
-import { useRouter } from "next/navigation";
 
 type FormProps = {
   elogId: string | null;
@@ -90,8 +89,12 @@ export function ElogFormDialog({ elogId, open, setOpen, refetch }: FormProps) {
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
-        <Button size="lg" onClick={() => setOpen(!open)}>
-          <ClipboardIcon className="mr-2" />
+        <Button
+          className="text-lg py-5 "
+          size="lg"
+          onClick={() => setOpen(!open)}
+        >
+          <PlusCircledIcon className="mr-2 w-5 h-5" />
           Add new e-log
         </Button>
       </DialogTrigger>

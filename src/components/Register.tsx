@@ -26,6 +26,8 @@ export default function Register() {
   const form = useForm<Register>({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       username: "",
       password: "",
@@ -59,6 +61,32 @@ export default function Register() {
         className="grid w-full max-w-[280px] gap-3 h-fit"
         onSubmit={form.handleSubmit(onRegister)}
       >
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First name</FormLabel>
+              <FormControl>
+                <Input {...field} className="bg-white" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last name</FormLabel>
+              <FormControl>
+                <Input {...field} className="bg-white" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
