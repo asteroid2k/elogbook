@@ -53,8 +53,8 @@ export default function Students() {
                 <span className="text-slate-500 font-normal block">
                   Full name:{" "}
                 </span>
-                {student.username?.toLowerCase()}{" "}
-                {student.username?.toLowerCase()}
+                {student.firstName?.toLowerCase()}{" "}
+                {student.lastName?.toLowerCase()}
               </p>
               <p>
                 <span className="text-slate-500 font-normal block capitalize">

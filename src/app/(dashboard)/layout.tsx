@@ -24,8 +24,18 @@ import logo from "../../../public/atu.png";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const links = [
-    { href: "/elogs", name: "E-logs", icon: <ClipboardIcon /> },
-    { href: "/students", name: "Students", icon: <PersonIcon /> },
+    {
+      href: "/elogs",
+      name: "E-logs",
+      icon: <ClipboardIcon />,
+      show: ["STUDENT", "SUPERVISOR"],
+    },
+    {
+      href: "/students",
+      name: "Students",
+      icon: <PersonIcon />,
+      show: ["SUPERVISOR"],
+    },
   ];
   const [user, setUser] = useState<any>();
   const route = usePathname();
@@ -74,20 +84,22 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </DropdownMenuContent>
           </DropdownMenu>
           <ul className="grid gap-2">
-            {links.map((link) => (
-              <li
-                key={link.name}
-                className={cn(
-                  "px-3 py-2 font-semibold rounded flex items-center gap-4",
-                  route.split("/")[1] === link.href.replace("/", "")
-                    ? "bg-blue-500 text-white ring-2 ring-blue-300"
-                    : "hover:bg-blue-100"
-                )}
-              >
-                {link.icon}
-                <Link href={link.href}>{link.name}</Link>
-              </li>
-            ))}
+            {links
+              .filter((l) => l.show?.includes(user?.role))
+              .map((link) => (
+                <li
+                  key={link.name}
+                  className={cn(
+                    "px-3 py-2 font-semibold rounded flex items-center gap-4",
+                    route.split("/")[1] === link.href.replace("/", "")
+                      ? "bg-blue-500 text-white ring-2 ring-blue-300"
+                      : "hover:bg-blue-100"
+                  )}
+                >
+                  {link.icon}
+                  <Link href={link.href}>{link.name}</Link>
+                </li>
+              ))}
           </ul>
         </Card>
       </div>
